@@ -8,7 +8,12 @@ namespace Zad2.Services
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository _userRepository = new UserRepository();
+        private readonly IUserRepository _userRepository;
+
+        public UserService(IUserRepository repo)
+        {
+            this._userRepository = repo;
+        }
 
         public bool RegisterUser(string username, string city, int age, string phoneNumber)
         {
