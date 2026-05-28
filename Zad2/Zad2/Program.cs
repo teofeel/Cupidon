@@ -1,25 +1,25 @@
+using Zad2.Backgrounds;
+using Zad2.DataRepositories;
+using Zad2.DataRepositories.Interfaces;
+using Zad2.Hubs;
+using Zad2.Services;
+using Zad2.Services.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton<IUserRepository, UserRepository>();
+builder.Services.AddSingleton<IUserService, UserService>();
+builder.Services.AddSingleton<ICupidService, CupidService>();
+
+builder.Services.AddHostedService<CupidBgService>();
+
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseRouting();
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
+app.MapHub<CupidHub>("/cupid");
 
 app.Run();
