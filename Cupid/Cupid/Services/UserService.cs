@@ -35,7 +35,10 @@ namespace Cupid.Services
                 throw new ArgumentNullException("Usernames want sent");
 
             User? currentUser = this._userRepository.GetUser(current);
+            User? toBlock = this._userRepository.GetUser(username);
+
             if (currentUser == null) throw new KeyNotFoundException("User not found");
+            if(toBlock == null) throw new KeyNotFoundException("User to be blocked doesnt exist");
 
 
             currentUser.BlockedUsers.Add(username);

@@ -16,6 +16,9 @@ namespace People.Listeners
 
         private readonly CupidListenerResults _listenerResults;
 
+        public bool HasPendingLetter { get; private set; } = false;
+
+
         public CupidListener(string url)
         {
             _connection = new HubConnectionBuilder()
@@ -24,6 +27,9 @@ namespace People.Listeners
                 .Build();
 
             _listenerResults = new CupidListenerResults();
+
+            _listenerResults.OnLetterReceived = () => HasPendingLetter = true;
+            _listenerResults.OnConfirmationReceived = () => HasPendingLetter = false;
 
             this.RegisterListeners();
         }

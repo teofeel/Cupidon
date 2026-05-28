@@ -56,7 +56,14 @@ namespace People.Views
                 }
                 else if (string.IsNullOrEmpty(input))
                 {
-                    await _listener.connection.InvokeAsync("ConfirmReceipt", _username);
+                    if (_listener.HasPendingLetter)
+                    {
+                        await _listener.connection.InvokeAsync("ConfirmReceipt", _username);
+                    }
+                    else
+                    {
+                        Console.WriteLine("[System]: No new letters");
+                    }
                 }
                 else if (input.StartsWith("/block "))
                 {
@@ -92,7 +99,22 @@ namespace People.Views
             {
                 Console.Write(prompt);
                 string input = Console.ReadLine();
-                int age = int.Parse(input);
+
+                if (string.IsNullOrEmpty(input))
+                {
+                    Console.WriteLine($"[Error]: Age cannot be empty");
+                    continue;
+
+                }
+                int age;
+                try
+                {
+                    age = int.Parse(input);
+                }catch(Exception ex)
+                {
+                    Console.WriteLine("[Error]: Age must be a number");
+                    continue;
+                }
 
                 if (age > 0)
                     return age;
