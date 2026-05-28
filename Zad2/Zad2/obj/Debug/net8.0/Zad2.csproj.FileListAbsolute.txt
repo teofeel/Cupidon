@@ -1,0 +1,9 @@
+C:\Users\teodo\Documents\FTN\SNUS\Zad2\snus-zad-2\Zad2\Zad2\obj\Debug\net8.0\Zad2.csproj.AssemblyReference.cache
+C:\Users\teodo\Documents\FTN\SNUS\Zad2\snus-zad-2\Zad2\Zad2\obj\Debug\net8.0\rpswa.dswa.cache.json
+C:\Users\teodo\Documents\FTN\SNUS\Zad2\snus-zad-2\Zad2\Zad2\obj\Debug\net8.0\Zad2.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\teodo\Documents\FTN\SNUS\Zad2\snus-zad-2\Zad2\Zad2\obj\Debug\net8.0\Zad2.AssemblyInfoInputs.cache
+C:\Users\teodo\Documents\FTN\SNUS\Zad2\snus-zad-2\Zad2\Zad2\obj\Debug\net8.0\Zad2.AssemblyInfo.cs
+C:\Users\teodo\Documents\FTN\SNUS\Zad2\snus-zad-2\Zad2\Zad2\obj\Debug\net8.0\Zad2.csproj.CoreCompileInputs.cache
+C:\Users\teodo\Documents\FTN\SNUS\Zad2\snus-zad-2\Zad2\Zad2\obj\Debug\net8.0\Zad2.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\teodo\Documents\FTN\SNUS\Zad2\snus-zad-2\Zad2\Zad2\obj\Debug\net8.0\Zad2.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\teodo\Documents\FTN\SNUS\Zad2\snus-zad-2\Zad2\Zad2\obj\Debug\net8.0\Zad2.sourcelink.json
