@@ -21,10 +21,23 @@ namespace People.Views
         public async Task Start()
         {
             Console.WriteLine("--- CLI ---");
-            var data = Register();
+            while (true)
+            {
+                var data = Register();
 
-            await _listener.connection.InvokeAsync("InitSinglePerson", data.username, data.grad, data.godine, data.telefon);
-            _username = data.username;
+                await _listener.connection.InvokeAsync("InitSinglePerson", data.username, data.grad, data.godine, data.telefon);
+
+                _listener.WaitForRegistration();
+
+                if (_listener.RegistrationSucceeded)
+                {
+                    _username = data.username;
+                    break;
+                }
+
+                Console.WriteLine("[System]: Username taken, try another one.");
+                _listener.ResetRegistration();
+            }
 
             await Run();
         }
@@ -70,6 +83,10 @@ namespace People.Views
                     string userToBlock = input.Replace("/block ", "").Trim();
                     await _listener.connection.InvokeAsync("BlockUser", _username, userToBlock);
                 }
+                else if (input.StartsWith("/exit"))
+                {
+                    Console.WriteLine("Exiting.....");
+                }
             }
         }
 
@@ -77,6 +94,7 @@ namespace People.Views
         private void PrintCommands()
         {
             Console.WriteLine("/block <username> - used to block user");
+            Console.WriteLine("/exit - used to exit app");
             Console.WriteLine("<enter> - after letter recieved to activate your status");
         }
         private string ReadNonEmptyString(string prompt)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
 using People.DTOs;
@@ -17,7 +18,15 @@ namespace People.Listeners
         private readonly CupidListenerResults _listenerResults;
 
         public bool HasPendingLetter { get; private set; } = false;
+        private readonly ManualResetEventSlim _registrationEvent = new(false);
+        public bool RegistrationSucceeded { get; private set; }
 
+        public void WaitForRegistration() => _registrationEvent.Wait();
+        public void ResetRegistration()
+        {
+            RegistrationSucceeded = false;
+            _registrationEvent.Reset();
+        }
 
         public CupidListener(string url)
         {
@@ -30,6 +39,11 @@ namespace People.Listeners
 
             _listenerResults.OnLetterReceived = () => HasPendingLetter = true;
             _listenerResults.OnConfirmationReceived = () => HasPendingLetter = false;
+            _listenerResults.OnRegistrationCompleted = (success) =>
+            {
+                RegistrationSucceeded = success;
+                _registrationEvent.Set();
+            };
 
             this.RegisterListeners();
         }

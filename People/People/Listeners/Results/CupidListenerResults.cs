@@ -12,16 +12,12 @@ namespace People.Listeners.Results
     {
         public Action OnLetterReceived { get; set; }
         public Action OnConfirmationReceived { get; set; }
+        public Action<bool> OnRegistrationCompleted { get; set; }
 
         public void OnRegistrationResult(bool success, string message)
         {
             Console.WriteLine($"\n[Cupid]: {message}");
-
-            if (!success) { 
-                Console.WriteLine("Please try again later");
-                Console.ReadKey();
-                Environment.Exit(0);
-            }
+            OnRegistrationCompleted?.Invoke(success);
         }
 
         public void OnConfirmationResult(string message)
@@ -32,10 +28,7 @@ namespace People.Listeners.Results
 
         public void OnBlockedUserResult(bool success, string message)
         {
-            if(success)
-                Console.WriteLine($"\n[System]: {message}");
-            else
-                Console.WriteLine($"\n[System]: {message}");
+            Console.WriteLine($"\n[System]: {message}");
         }
 
         public void OnRecieveLetter(LetterDTO dto)

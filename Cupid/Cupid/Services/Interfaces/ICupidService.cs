@@ -2,6 +2,6 @@
 {
     public interface ICupidService
     {
-        void SendLetter();
+        Task SendLetter();
     }
 }

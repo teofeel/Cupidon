@@ -18,11 +18,13 @@ namespace Cupid.Backgrounds
             {
                 try
                 {
-                    this._cupidService.SendLetter();
+                    Console.WriteLine($"[CupidBg] Running SendLetter at {DateTime.Now}");
+                    await this._cupidService.SendLetter();
+                    Console.WriteLine($"[CupidBg] SendLetter completed");
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Cupid BG Error: {ex.Message}");
+                    Console.WriteLine($"Cupid BG Error: {ex}");
                 }
 
                 await Task.Delay(60000, stoppingToken);

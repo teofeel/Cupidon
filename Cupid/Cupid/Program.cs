@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<IUserRepository, UserRepository>();
 builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.AddSingleton<ICupidService, CupidService>();
+builder.Services.AddSingleton<Cupid.Utils.CupidConnectionTracker>();
 
 builder.Services.AddHostedService<CupidBgService>();
 

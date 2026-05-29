@@ -26,7 +26,7 @@ namespace Cupid.Services
             _hubContext = hubContext;
         }
 
-        public void SendLetter()
+        public async Task SendLetter()
         {
             List<User> users = this._userRepository.GetAllUsers();
 
@@ -52,14 +52,14 @@ namespace Cupid.Services
                     }
                 }
 
-                if (bestMatch != null) this.PrepareMessage(receiver, bestMatch);
+                if (bestMatch != null) await this.PrepareMessage(receiver, bestMatch);
 
             }
 
             
         }
 
-        private void PrepareMessage(User receiver, User bestMatch)
+        private async Task PrepareMessage(User receiver, User bestMatch)
         {
             string randomMessage = this._messages[GetRandomCrypto(0, _messages.Length-1)];
 
@@ -69,7 +69,7 @@ namespace Cupid.Services
             receiver.IsBusy = true;
             this._userRepository.UpdateUser(receiver);
 
-            this._hubContext.Clients.Group(receiver.Username).SendAsync("ReceiveLetter", letter);
+            await this._hubContext.Clients.Group(receiver.Username).SendAsync("ReceiveLetter", letter);
         }
 
         private int IncreaseScore(User receiver, User sender)
