@@ -3,6 +3,7 @@ using Cupid.DataRepositories;
 using Cupid.DataRepositories.Interfaces;
 using Cupid.Models;
 using Cupid.Services.Interfaces;
+using Cupid.Utils;
 
 namespace Cupid.Services
 {
@@ -13,6 +14,7 @@ namespace Cupid.Services
         public UserService(IUserRepository repo)
         {
             this._userRepository = repo;
+
         }
 
         public bool RegisterUser(string username, string city, int age, string phoneNumber)
@@ -25,6 +27,7 @@ namespace Cupid.Services
             if (age <= 0) throw new ArgumentOutOfRangeException("User entered negative number");
 
             User newUser = new User(username, city, age, phoneNumber, false);
+
 
             return this._userRepository.AddUser(newUser);
         }
@@ -67,6 +70,14 @@ namespace Cupid.Services
         public User? GetUserByUsername(string username)
         {
             return this._userRepository.GetUser(username);
+        }
+
+        public bool RemoveUser(string username)
+        {
+            if (string.IsNullOrEmpty(username)) return false;
+
+            return this._userRepository.RemoveUser(username);
+
         }
     }
 }

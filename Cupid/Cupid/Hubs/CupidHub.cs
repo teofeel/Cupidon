@@ -1,15 +1,19 @@
-﻿using Microsoft.AspNetCore.SignalR;
-using Cupid.Services.Interfaces;
+﻿using Cupid.Services.Interfaces;
+using Cupid.Utils;
+using Microsoft.AspNetCore.SignalR;
+using System.Diagnostics;
 
 namespace Cupid.Hubs
 {
     public class CupidHub : Hub
     {
         private readonly IUserService _userService;
+        private readonly CupidConnectionTracker _connectionTracker;
 
-        public CupidHub(IUserService userService)
+        public CupidHub(IUserService userService, CupidConnectionTracker tracker)
         {
             this._userService = userService;
+            this._connectionTracker = tracker;
         }
 
         public async Task InitSinglePerson(string username, string city, int age, string phoneNumber)
@@ -18,10 +22,18 @@ namespace Cupid.Hubs
             {
                 bool isRegistered = this._userService.RegisterUser(username, city, age, phoneNumber);
 
-                if (!isRegistered) await Clients.Caller.SendAsync("RegistrationResult", false, $"Couldnt register user");
+                if (!isRegistered)
+                {
+                    await Clients.Caller.SendAsync("RegistrationResult", false, $"Couldnt register user");
+                    return;
+                }
+
+                this._connectionTracker.Add(this.Context.ConnectionId, username);
 
                 await Groups.AddToGroupAsync(Context.ConnectionId, username);
                 await Clients.Caller.SendAsync("RegistrationResult", true, $"User registered");
+
+                
             }
             catch (Exception ex)
             {
@@ -54,6 +66,25 @@ namespace Cupid.Hubs
             {
                 await Clients.Caller.SendAsync("BlockedUser", false, $"Couldnt block: {ex.Message}");
             }
+
+        }
+
+        public override async Task OnDisconnectedAsync(Exception? ex)
+        {
+            if(this._connectionTracker.TryRemove(this.Context.ConnectionId, out string? username))
+            {
+                try
+                {
+                    this._userService.RemoveUser(username);
+                }
+                catch(Exception exx)
+                {
+                    Debug.WriteLine($"Error cleaning up user {username}: {exx.Message}");
+                }
+            }
+
+            await base.OnDisconnectedAsync(ex);
+
 
         }
     }
