@@ -85,7 +85,6 @@ namespace Cupid.Hubs
 
             await base.OnDisconnectedAsync(ex);
 
-
         }
     }
 }
