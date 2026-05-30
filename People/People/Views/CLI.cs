@@ -86,6 +86,8 @@ namespace People.Views
                 else if (input.StartsWith("/exit"))
                 {
                     Console.WriteLine("Exiting.....");
+                    await _listener.connection.StopAsync();
+                    Environment.Exit(0);
                 }
             }
         }

@@ -19,8 +19,11 @@ namespace Cupid.DataRepositories
         {
             if (user == null || string.IsNullOrEmpty(user?.Username)) return false;
 
-            if (this._users.TryGetValue(user.Username, out var oldUser))
-                return this._users.TryUpdate(user.Username, user, oldUser);
+            while (this._users.TryGetValue(user.Username, out var oldUser))
+            {
+                if (this._users.TryUpdate(user.Username, user, oldUser))
+                    return true;
+            }
 
             return false;
         }
@@ -32,6 +35,25 @@ namespace Cupid.DataRepositories
             if (!this._users.ContainsKey(username)) return false;
 
             return this._users.TryRemove(username, out _);
+        }
+
+        public bool TrySetBusy(string username, bool value)
+        {
+            if (string.IsNullOrEmpty(username)) return false;
+
+            while (this._users.TryGetValue(username, out var oldUser))
+            {
+                if (oldUser.IsBusy == value) return false;
+                User updatedUser = new User(oldUser.Username, oldUser.City, oldUser.Age, oldUser.PhoneNumber, value)
+                {
+                    BlockedUsers = oldUser.BlockedUsers
+                };
+
+                if (this._users.TryUpdate(username, updatedUser, oldUser))
+                    return true;
+            }
+
+            return false;
         }
 
         public User? GetUser(string username)

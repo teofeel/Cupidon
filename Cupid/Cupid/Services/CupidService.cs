@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.SignalR;
-using System.Security.Cryptography;
-using Cupid.DataRepositories;
+﻿using Cupid.DataRepositories;
 using Cupid.DataRepositories.Interfaces;
 using Cupid.Hubs;
 using Cupid.Models;
 using Cupid.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
+using System.Diagnostics;
+using System.Security.Cryptography;
 
 namespace Cupid.Services
 {
@@ -33,27 +34,47 @@ namespace Cupid.Services
 
             foreach(User receiver in users)
             {
-                if (receiver.IsBusy) continue;
+                bool acquiredLock = false;
 
-                User? bestMatch = null;
-                int highestScore = -1;
-
-                foreach (User sender in users) 
+                try
                 {
-                    if (sender.Username == receiver.Username) continue;
-                    if (receiver.BlockedUsers.Contains(sender.Username)) continue;
+                    if (!this._userRepository.TrySetBusy(receiver.Username, true)) continue;
 
-                    int currentScore = this.IncreaseScore(receiver, sender);
+                    acquiredLock = true;
 
-                    if (currentScore > highestScore)
+                    User? bestMatch = null;
+                    int highestScore = -1;
+
+                    foreach (User sender in users)
                     {
-                        highestScore = currentScore;
-                        bestMatch = sender;
+                        if (sender.Username == receiver.Username) continue;
+                        if (receiver.BlockedUsers.Contains(sender.Username)) continue;
+
+                        int currentScore = this.IncreaseScore(receiver, sender);
+
+                        if (currentScore > highestScore)
+                        {
+                            highestScore = currentScore;
+                            bestMatch = sender;
+                        }
                     }
+
+                    
+                    if (this._userRepository.GetUser(receiver.Username) == null)
+                    {
+                        acquiredLock = false;
+                        continue;
+                    }
+
+                    if (bestMatch != null) await this.PrepareMessage(receiver, bestMatch);
+                    else this._userRepository.TrySetBusy(receiver.Username, false);
                 }
+                catch(Exception ex)
+                {
+                    if (acquiredLock) this._userRepository.TrySetBusy(receiver.Username, false);
 
-                if (bestMatch != null) await this.PrepareMessage(receiver, bestMatch);
-
+                    Debug.WriteLine($"SendLetter error {receiver.Username}: {ex.Message}");
+                }
             }
 
             
@@ -61,13 +82,13 @@ namespace Cupid.Services
 
         private async Task PrepareMessage(User receiver, User bestMatch)
         {
-            string randomMessage = this._messages[GetRandomCrypto(0, _messages.Length-1)];
 
-            string phoneToSend = randomMessage == "Nisam zainteresovan/a za upoznavanje" ? "" : bestMatch.PhoneNumber;
+            string randomMessage = this._messages[GetRandomCrypto(0, _messages.Length - 1)]
+                            string phoneToSend = randomMessage == "Nisam zainteresovan/a za upoznavanje" ? "" : bestMatch.PhoneNumber;
             Letter letter = new Letter(bestMatch.Username, bestMatch.City, bestMatch.Age, randomMessage, phoneToSend);
 
-            receiver.IsBusy = true;
-            this._userRepository.UpdateUser(receiver);
+            //receiver.IsBusy = true;
+            //this._userRepository.UpdateUser(receiver);
 
             await this._hubContext.Clients.Group(receiver.Username).SendAsync("ReceiveLetter", letter);
         }

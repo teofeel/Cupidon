@@ -75,11 +75,20 @@ namespace Cupid.Hubs
             {
                 try
                 {
+                    this._userService.SetUserBusy(username, false);
+                }
+                catch (Exception busyEx)
+                {
+                    Debug.WriteLine($"Could not clear busy for {username}: {busyEx.Message}");
+                }
+
+                try
+                {
                     this._userService.RemoveUser(username);
                 }
-                catch(Exception exx)
+                catch (Exception removeEx)
                 {
-                    Debug.WriteLine($"Error cleaning up user {username}: {exx.Message}");
+                    Debug.WriteLine($"Error removing user {username}: {removeEx.Message}");
                 }
             }
 

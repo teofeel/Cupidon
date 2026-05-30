@@ -49,18 +49,33 @@ namespace Cupid.Services
             this._userRepository.UpdateUser(currentUser);
         }
 
+        //public void SetUserBusy(string username, bool isBusy)
+        //{
+        //    if (string.IsNullOrEmpty(username))
+        //        throw new ArgumentNullException("Username want sent");
+
+        //    User? user = this._userRepository.GetUser(username);
+        //    if (user == null) throw new KeyNotFoundException("User not found");
+
+        //    user.IsBusy = isBusy;
+        //    this._userRepository.UpdateUser(user);
+
+        //}
+
         public void SetUserBusy(string username, bool isBusy)
         {
             if (string.IsNullOrEmpty(username))
-                throw new ArgumentNullException("Username want sent");
+                throw new ArgumentNullException(nameof(username));
 
-            User? user = this._userRepository.GetUser(username);
-            if (user == null) throw new KeyNotFoundException("User not found");
+            bool success = this._userRepository.TrySetBusy(username, isBusy);
 
-            user.IsBusy = isBusy;
-            this._userRepository.UpdateUser(user);
-            
+            if (!success)
+            {
+                if (this._userRepository.GetUser(username) == null)
+                    throw new KeyNotFoundException("User not found");
+            }
         }
+
 
         public List<User> GetAllUser()
         {
