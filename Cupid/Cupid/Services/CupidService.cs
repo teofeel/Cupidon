@@ -83,8 +83,8 @@ namespace Cupid.Services
         private async Task PrepareMessage(User receiver, User bestMatch)
         {
 
-            string randomMessage = this._messages[GetRandomCrypto(0, _messages.Length - 1)]
-                            string phoneToSend = randomMessage == "Nisam zainteresovan/a za upoznavanje" ? "" : bestMatch.PhoneNumber;
+            string randomMessage = this._messages[GetRandomCrypto(0, _messages.Length - 1)];
+            string phoneToSend = randomMessage == "Nisam zainteresovan/a za upoznavanje" ? "" : bestMatch.PhoneNumber;
             Letter letter = new Letter(bestMatch.Username, bestMatch.City, bestMatch.Age, randomMessage, phoneToSend);
 
             //receiver.IsBusy = true;

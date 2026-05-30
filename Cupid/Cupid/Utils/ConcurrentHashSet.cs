@@ -5,6 +5,15 @@
         private readonly HashSet<T> _hashSet = new HashSet<T>();
         private readonly object _lock = new object();
 
+        private ConcurrentHashSet(HashSet<T> existingSet)
+        {
+            _hashSet = new HashSet<T>(existingSet);
+        }
+
+        public ConcurrentHashSet()
+        {
+        }
+
         public bool Add(T item)
         {
             lock (_lock)
@@ -44,6 +53,14 @@
                 {
                     return _hashSet.Count;
                 }
+            }
+        }
+
+        public ConcurrentHashSet<T> Clone()
+        {
+            lock (_lock)
+            {
+                return new ConcurrentHashSet<T>(_hashSet);
             }
         }
     }

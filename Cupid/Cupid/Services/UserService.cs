@@ -43,10 +43,11 @@ namespace Cupid.Services
             if (currentUser == null) throw new KeyNotFoundException("User not found");
             if(toBlock == null) throw new KeyNotFoundException("User to be blocked doesnt exist");
 
+            if (!this._userRepository.AddBlockedUser(current, username))
+                throw new KeyNotFoundException("User not found");
+            //currentUser.BlockedUsers.Add(username);
 
-            currentUser.BlockedUsers.Add(username);
-
-            this._userRepository.UpdateUser(currentUser);
+            //this._userRepository.UpdateUser(currentUser);
         }
 
         //public void SetUserBusy(string username, bool isBusy)
