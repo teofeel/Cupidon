@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37111.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cupid", "Cupid\Cupid.csproj", "{800A34E6-9688-48E7-9C50-E8CC24E6E55C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "People", "..\People\People\People.csproj", "{9A8CF566-065A-E8FE-AC68-9B9587D2590B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{800A34E6-9688-48E7-9C50-E8CC24E6E55C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{800A34E6-9688-48E7-9C50-E8CC24E6E55C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{800A34E6-9688-48E7-9C50-E8CC24E6E55C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{800A34E6-9688-48E7-9C50-E8CC24E6E55C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A8CF566-065A-E8FE-AC68-9B9587D2590B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A8CF566-065A-E8FE-AC68-9B9587D2590B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A8CF566-065A-E8FE-AC68-9B9587D2590B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A8CF566-065A-E8FE-AC68-9B9587D2590B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F137DE61-3E1F-4CFC-856E-B331AD317F04}
+	EndGlobalSection
+EndGlobal
