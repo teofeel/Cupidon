@@ -69,3 +69,4 @@ C:\Users\teodo\Documents\FTN\SNUS\Zad2\snus-zad-2\Cupid\Cupid\obj\Debug\net8.0\r
 C:\Users\teodo\Documents\FTN\SNUS\Zad2\snus-zad-2\Cupid\Cupid\obj\Debug\net8.0\Cupid.pdb
 C:\Users\teodo\Documents\FTN\SNUS\Zad2\snus-zad-2\Cupid\Cupid\obj\Debug\net8.0\Cupid.genruntimeconfig.cache
 C:\Users\teodo\Documents\FTN\SNUS\Zad2\snus-zad-2\Cupid\Cupid\obj\Debug\net8.0\ref\Cupid.dll
+C:\Users\teodo\Documents\FTN\SNUS\Zad2\snus-zad-2\Cupid\Cupid\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

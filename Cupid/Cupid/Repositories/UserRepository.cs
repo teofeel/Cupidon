@@ -43,7 +43,6 @@ namespace Cupid.DataRepositories
 
             while (this._users.TryGetValue(username, out var oldUser))
             {
-                if (oldUser.IsBusy == value) return false;
                 User updatedUser = new User(oldUser.Username, oldUser.City, oldUser.Age, oldUser.PhoneNumber, value)
                 {
                     BlockedUsers = oldUser.BlockedUsers.Clone()

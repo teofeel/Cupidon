@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Cupid")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+88d3c3f03e5405f429e8536b37dfa9a42b9d07cb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+314d347e313369c296f5ecce8d6a358da008af5c")]
 [assembly: System.Reflection.AssemblyProductAttribute("Cupid")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Cupid")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

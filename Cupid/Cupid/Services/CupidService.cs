@@ -48,6 +48,7 @@ namespace Cupid.Services
                     foreach (User sender in users)
                     {
                         if (sender.Username == receiver.Username) continue;
+
                         if (receiver.BlockedUsers.Contains(sender.Username)) continue;
 
                         int currentScore = this.IncreaseScore(receiver, sender);
@@ -59,15 +60,12 @@ namespace Cupid.Services
                         }
                     }
 
-                    
-                    if (this._userRepository.GetUser(receiver.Username) == null)
-                    {
-                        acquiredLock = false;
-                        continue;
-                    }
+                   
 
-                    if (bestMatch != null) await this.PrepareMessage(receiver, bestMatch);
-                    else this._userRepository.TrySetBusy(receiver.Username, false);
+                    if (bestMatch != null && this._userRepository.GetUser(receiver.Username) != null) 
+                        await this.PrepareMessage(receiver, bestMatch);
+                    else 
+                        this._userRepository.TrySetBusy(receiver.Username, false);
                 }
                 catch(Exception ex)
                 {
