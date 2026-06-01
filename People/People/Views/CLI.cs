@@ -60,7 +60,6 @@ namespace People.Views
 
             while (true)
             {
-                Console.Write(">> ");
                 string input = Console.ReadLine()?.Trim();
 
                 if(input == "--help")

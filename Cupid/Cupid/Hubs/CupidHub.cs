@@ -33,7 +33,7 @@ namespace Cupid.Hubs
                 await Groups.AddToGroupAsync(Context.ConnectionId, username);
                 await Clients.Caller.SendAsync("RegistrationResult", true, $"User registered");
 
-                
+
             }
             catch (Exception ex)
             {
@@ -71,7 +71,7 @@ namespace Cupid.Hubs
 
         public override async Task OnDisconnectedAsync(Exception? ex)
         {
-            if(this._connectionTracker.TryRemove(this.Context.ConnectionId, out string? username))
+            if (this._connectionTracker.TryRemove(this.Context.ConnectionId, out string? username))
             {
                 try
                 {
