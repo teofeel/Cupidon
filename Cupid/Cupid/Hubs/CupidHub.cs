@@ -42,32 +42,32 @@ namespace Cupid.Hubs
 
         }
 
-        public async Task ConfirmReceipt(string username)
-        {
-            try
-            {
-                this._userService.SetUserBusy(username, false);
-                await Clients.Caller.SendAsync("ConfirmationResult", $"You can now receive new letters");
-            }
-            catch (Exception ex)
-            {
-                await Clients.Caller.SendAsync("ConfirmationResult", $"Error: {ex.Message}");
-            }
-        }
+        //public async Task ConfirmReceipt(string username)
+        //{
+        //    try
+        //    {
+        //        this._userService.SetUserBusy(username, false);
+        //        await Clients.Caller.SendAsync("ConfirmationResult", $"You can now receive new letters");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        await Clients.Caller.SendAsync("ConfirmationResult", $"Error: {ex.Message}");
+        //    }
+        //}
 
-        public async Task BlockUser(string current, string username)
-        {
-            try
-            {
-                this._userService.BlockUser(current, username);
-                await Clients.Caller.SendAsync("BlockedUser", true, $"BLocked user: {username}");
-            }
-            catch (Exception ex)
-            {
-                await Clients.Caller.SendAsync("BlockedUser", false, $"Couldnt block: {ex.Message}");
-            }
+        //public async Task BlockUser(string current, string username)
+        //{
+        //    try
+        //    {
+        //        this._userService.BlockUser(current, username);
+        //        await Clients.Caller.SendAsync("BlockedUser", true, $"BLocked user: {username}");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        await Clients.Caller.SendAsync("BlockedUser", false, $"Couldnt block: {ex.Message}");
+        //    }
 
-        }
+        //}
 
         public override async Task OnDisconnectedAsync(Exception? ex)
         {

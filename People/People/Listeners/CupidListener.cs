@@ -56,9 +56,9 @@ namespace People.Listeners
         public void RegisterListeners()
         {
             this._connection.On<bool, string>("RegistrationResult", this._listenerResults.OnRegistrationResult);
-            this._connection.On<string>("ConfirmationResult", this._listenerResults.OnConfirmationResult);
-            this._connection.On<bool, string>("BlockedUser", this._listenerResults.OnBlockedUserResult);
-            this._connection.On<LetterDTO>("ReceiveLetter", this._listenerResults.OnRecieveLetter);
+            //this._connection.On<string>("ConfirmationResult", this._listenerResults.OnConfirmationResult);
+            //this._connection.On<bool, string>("BlockedUser", this._listenerResults.OnBlockedUserResult);
+            //this._connection.On<LetterDTO>("ReceiveLetter", this._listenerResults.OnRecieveLetter);
         }
     }
 }

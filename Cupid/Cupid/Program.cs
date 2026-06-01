@@ -16,11 +16,12 @@ builder.Services.AddSingleton<Cupid.Utils.CupidConnectionTracker>();
 builder.Services.AddHostedService<CupidBgService>();
 
 builder.Services.AddSignalR();
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
 app.UseRouting();
 
 app.MapHub<CupidHub>("/cupid");
-
+app.MapControllers();
 app.Run();

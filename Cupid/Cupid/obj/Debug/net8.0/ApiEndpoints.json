@@ -1,1 +1,34 @@
-[]
+[
+  {
+    "ContainingType": "Cupid.Controller.UserController",
+    "Method": "BlockUser",
+    "RelativePath": "api/User/block",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Cupid.Models.BlockRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Cupid.Controller.UserController",
+    "Method": "UnbusyUser",
+    "RelativePath": "api/User/unbusy",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "username",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

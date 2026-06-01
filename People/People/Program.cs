@@ -2,15 +2,22 @@
 using People.Listeners;
 using People.Views;
 
-CupidListener listener = new CupidListener("http://localhost:5175/cupid");
+CupidListener listener = new CupidListener("https://localhost:7204/cupid");
 
 try
 {
     await listener.StartAsync();
     Console.WriteLine("[Status]: Server Started");
-}catch(Exception ex)
+}
+catch (Exception ex)
 {
-    Console.WriteLine($"[Error]: {ex.Message}");
+    // This will print the actual technical reason (e.g., 404, 401, Connection Refused)
+    Console.WriteLine($"[FATAL ERROR]: {ex.Message}");
+    if (ex.InnerException != null)
+        Console.WriteLine($"[INNER EXCEPTION]: {ex.InnerException.Message}");
+
+    Console.WriteLine("\nPress any key to close the window...");
+    Console.ReadKey(); // Window will not close automatically
     return;
 }
 

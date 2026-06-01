@@ -3,6 +3,8 @@ using People.Listeners;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,6 +13,7 @@ namespace People.Views
     public class CLI
     {
         private readonly CupidListener _listener;
+        private readonly HttpClient _httpClient = new HttpClient { BaseAddress = new Uri("https://localhost:7204/api/") };
         private string _username = "";
 
         public CLI(CupidListener listener)
@@ -68,19 +71,44 @@ namespace People.Views
                 }
                 else if (string.IsNullOrEmpty(input))
                 {
-                    if (_listener.HasPendingLetter)
+                    var content = new StringContent($"\"{_username}\"", Encoding.UTF8, "application/json");
+                    var response = await _httpClient.PostAsync("user/unbusy", content);
+
+                    if (response.IsSuccessStatusCode)
                     {
-                        await _listener.connection.InvokeAsync("ConfirmReceipt", _username);
+                        Console.WriteLine($"[System]: You can now recieve new letter");
                     }
                     else
                     {
-                        Console.WriteLine("[System]: No new letters");
+                        string error = await response.Content.ReadAsStringAsync();
+                        Console.WriteLine($"[Error]: Server returned: {response.StatusCode} - {error}");
                     }
+
+                    //if (_listener.HasPendingLetter)
+                    //{
+                    //    await _listener.connection.InvokeAsync("ConfirmReceipt", _username);
+                    //}
+                    //else
+                    //{
+                    //    Console.WriteLine("[System]: No new letters");
+                    //}
                 }
                 else if (input.StartsWith("/block "))
                 {
                     string userToBlock = input.Replace("/block ", "").Trim();
-                    await _listener.connection.InvokeAsync("BlockUser", _username, userToBlock);
+
+                    var content = JsonContent.Create(new { Current = _username, Target = userToBlock });
+                    var response = await _httpClient.PostAsync("user/block", content);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        Console.WriteLine($"[System]: Successfully blocked {userToBlock}");
+                    }
+                    else
+                    {
+                        string error = await response.Content.ReadAsStringAsync();
+                        Console.WriteLine($"[Error]: Could not block user. Server returned: {response.StatusCode} - {error}");
+                    }
                 }
                 else if (input.StartsWith("/exit"))
                 {
